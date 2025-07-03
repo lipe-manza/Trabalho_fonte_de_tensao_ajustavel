@@ -32,7 +32,7 @@ Este trabalho descreve o projeto e a construção de uma fonte de alimentação 
 
 # Imagem do Circuito no Falstad
 ![falstad](falstad.jpeg)
-   - link para o falstad: https://tinyurl.com/2cbdos5r
+   - link para o falstad: https://tinyurl.com/264bqyp6
 
 # PCB no Eagle
 ![pcb](pcb.jpeg)
