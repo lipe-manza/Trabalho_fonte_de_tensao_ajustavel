@@ -43,13 +43,105 @@ Este trabalho descreve o projeto e a construção de uma fonte de alimentação 
 # Vídeo do funcionamento e Fotos da Fonte
 - Vídeo explicando o funcionamento da fonte: https://youtu.be/jIqwZMUt0rg
 
-Video a ser lançado
-
 ![fotoprotoboard1](fonte1.jpeg)
 ![fotoprotoboard2](fonte2.jpeg)
 ![fotoprotoboard3](fonte3.jpeg)
 ![fotoprotoboard4](fonte4.jpeg)
 
+# Cálculos:
+
+## 1. Cálculo da Razão das Espiras (Np/Ns)
+
+A razão entre as espiras do primário (Np) e do secundário (Ns) é igual à razão entre suas respectivas tensões (Vp e Vs).
+
+* **Tensão no Primário (`Vp`):** `127V` (RMS)
+* **Tensão no Secundário (`Vs`):** `127V / 7 ≈ 18,14V` (RMS)
+* **Cálculo da Razão:**
+    ```
+    Np/Ns = Vp/Vs = 127V / 18,14V ≈ 7,0
+    ```
+* **Conclusão:** A razão das espiras é de aproximadamente **7:1**.
+
+## 2. Tensão de Pico
+
+* **Pico no Primário:**
+    ```
+    V_pico(prim) = Vp(RMS) * √2 = 127V * 1,414 ≈ 179,6V
+    ```
+* **Pico no Secundário:**
+    ```
+    V_pico(sec) = Vs(RMS) * √2 = 18,14V * 1,414 ≈ 25,65V
+    ```
+
+## 3. Tensão no Capacitor de Filtro (`VC`)
+
+Considera-se a queda de tensão em dois diodos da ponte retificadora (`~0,7V` cada).
+
+* **Cálculo:**
+    ```
+    VC = V_pico(sec) - (2 * V_diodo) = 25,65V - 1,4V = 24,25V
+    ```
+
+## 4. Corrente de Carga (`I_carga`)
+
+Calculada com base em uma resistência de carga de `120Ω`.
+
+* **Corrente Máxima (em 12,3V):**
+    ```
+    I_max = V_out(max) / R_carga = 12,3V / 120Ω = 0,1025A ou 102,5mA
+    ```
+* **Corrente Mínima (em 3V):**
+    ```
+    I_min = V_out(min) / R_carga = 3V / 120Ω = 0,025A ou 25mA
+    ```
+
+## 5. Cálculo da Capacitância de Filtro (`C_min`)
+
+Para uma tensão de ondulação (`ripple`) alvo de 10% da tensão do capacitor (`V_ripple = 2,425V`) e frequência de `120Hz`.
+
+* **Cálculo:**
+    ```
+    C_min = I_max / (f_ripple * V_ripple) = 0,1025A / (120Hz * 2,425V) ≈ 352µF
+    ```
+* **Conclusão:** O capacitor de `470µF` é adequado para essa situação.
+
+## 6. Cálculo do Resistor do Zener (R1)
+
+Determinação da faixa de operação segura para o resistor `R1` (`1kΩ`).
+
+* **Resistência Mínima (`R_min`):** Para proteger o Zener em corrente máxima (`~77mA`).
+    ```
+    R_min = (VC - VZ) / I_Z(max) = (24,25V - 13V) / 0,077A ≈ 146Ω
+    ```
+* **Resistência Máxima (`R_max`):** Para garantir a regulação em corrente mínima (`~7,8mA`).
+    ```
+    R_max = (V_C(min) - VZ) / I_total(min) = (21,8V - 13V) / 0,0078A ≈ 1131Ω ou 1,13kΩ
+    ```
+* **Conclusão:** O valor de `1kΩ` que utilizamos está dentro da faixa permitida.
+
+## 7. Cálculo da Faixa de Tensão de Saída (`V_out`)
+
+A tensão de saída é a tensão na base do transistor (`VB`) menos a queda base-emissor (`VBE ≈ 0,7V`).
+
+* **Tensão de Saída Mínima:**
+    ```
+    V_B(min) = VZ * (R4 / (R6 + R4)) = 13V * (2kΩ / (5,1kΩ + 2kΩ)) ≈ 3,66V
+    V_out(min) = V_B(min) - VBE = 3,66V - 0,7V = 2,96V
+    ```
+* **Tensão de Saída Máxima:**
+    ```
+    V_B(max) = VZ = 13V
+    V_out(max) = V_B(max) - VBE = 13V - 0,7V = 12,3V
+    ```
+
+## 8. Cálculo de Potência Dissipada em R3
+
+Análise de segurança para o resistor `R3` (`100Ω`) na condição de corrente máxima.
+
+* **Cálculo:**
+    ```
+    P_R3 = R3 * IC² ≈ 100Ω * (0,1025A)² ≈ 1,05W
+    ```
 
 # Membros
 - Matheus Gregório Muniz Arcanjo - 16892051
