@@ -41,7 +41,7 @@ Este trabalho descreve o projeto e a construção de uma fonte de alimentação 
 ![esquematico](esquematico.jpeg)
 
 # Vídeo do funcionamento e Fotos da Fonte
-- Vídeo explicando o funcionamento da fonte: Ainda a ser lançado
+- Vídeo explicando o funcionamento da fonte: https://youtu.be/jIqwZMUt0rg
 
 Video a ser lançado
 
